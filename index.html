@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Farming Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="login-page">
+        <div class="login-bg"></div>
+        <div class="login-box">
+            <h2>🌾 Smart Agriculture Login</h2>
+            <div id="loginForm">
+                <input type="text" id="username" placeholder="Username"/>
+                <input type="password" id="password" placeholder="Password"/>
+                <button onclick="login()">Login</button>
+                <p style="text-align: center; margin-top: 10px;">
+                    <a href="#" onclick="showRegisterForm()" style="color: #fbbf24; font-weight: 600; text-decoration: underline; transition: color 0.3s ease;" onmouseover="this.style.color='#f59e0b'" onmouseout="this.style.color='#fbbf24'">Don't have an account? Register</a>
+                </p>
+            </div>
+            <div id="registerForm" style="display: none;">
+                <input type="text" id="regUsername" placeholder="Username"/>
+                <input type="email" id="regEmail" placeholder="Email"/>
+                <input type="password" id="regPassword" placeholder="Password"/>
+                <input type="text" id="regFullName" placeholder="Full Name (Optional)"/>
+                <input type="text" id="regFarmLocation" placeholder="Farm Location (Optional)"/>
+                <button onclick="register()">Register</button>
+                <p style="text-align: center; margin-top: 10px;">
+                    <a href="#" onclick="showLoginForm()" style="color: #16a34a;">Already have an account? Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+
+    <div class="dashboard" id="dashboard">
+        <!-- Navigation Bar Directly Embedded -->
+        <nav class="navbar" style="background: linear-gradient(135deg, #1e3a8a, #1e40af); padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; width: 100%;">
+            <div class="nav-container" style="width: 100%; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+                <div class="nav-brand" style="flex-shrink: 0; padding-left: 20px;">
+                    <h2 onclick="refreshDashboard()" style="cursor: pointer; color: #fbbf24; margin: 0; font-size: 1.1rem; font-weight: 600; transition: transform 0.3s ease; white-space: nowrap;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">🌾 Smart Agriculture 🌱</h2>
+                </div>
+                <div class="nav-menu" style="display: flex; justify-content: space-between; align-items: center; flex: 1; padding: 0 20px;">
+                    <button class="nav-item home-btn" onclick="loadMenuContent('home'); return false;" title="Go to Home" style="background: #22c55e; color: white; border: 2px solid #16a34a; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background='#16a34a'; this.style.borderColor='#15803d'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(34,197,94,0.4)'" onmouseout="this.style.background='#22c55e'; this.style.borderColor='#16a34a'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">🏠 Home</button>
+                    <button class="nav-item" onclick="loadMenuContent('crop')" style="background: #fbbf24; color: #1e3a8a; border: 2px solid #f59e0b; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background='#f59e0b'; this.style.borderColor='#d97706'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(251,191,36,0.4)'" onmouseout="this.style.background='#fbbf24'; this.style.borderColor='#f59e0b'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">🌾 Crop</button>
+                    <button class="nav-item" onclick="loadMenuContent('community')" style="background: #fbbf24; color: #1e3a8a; border: 2px solid #f59e0b; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background='#f59e0b'; this.style.borderColor='#d97706'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(251,191,36,0.4)'" onmouseout="this.style.background='#fbbf24'; this.style.borderColor='#f59e0b'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">👥 Community</button>
+                    <button class="nav-item" onclick="loadMenuContent('market')" style="background: #fbbf24; color: #1e3a8a; border: 2px solid #f59e0b; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background='#f59e0b'; this.style.borderColor='#d97706'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(251,191,36,0.4)'" onmouseout="this.style.background='#fbbf24'; this.style.borderColor='#f59e0b'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">🛒 Market</button>
+                    <button class="nav-item" onclick="loadMenuContent('land')" style="background: #fbbf24; color: #1e3a8a; border: 2px solid #f59e0b; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background='#f59e0b'; this.style.borderColor='#d97706'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(251,191,36,0.4)'" onmouseout="this.style.background='#fbbf24'; this.style.borderColor='#f59e0b'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">🌍 Land</button>
+                    <button class="nav-item" onclick="loadMenuContent('fertilizer')" style="background: #fbbf24; color: #1e3a8a; border: 2px solid #f59e0b; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background='#f59e0b'; this.style.borderColor='#d97706'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(251,191,36,0.4)'" onmouseout="this.style.background='#fbbf24'; this.style.borderColor='#f59e0b'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">🧪 Fertilizer</button>
+                    <button class="nav-item" onclick="loadMenuContent('govt')" style="background: #fbbf24; color: #1e3a8a; border: 2px solid #f59e0b; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background='#f59e0b'; this.style.borderColor='#d97706'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(251,191,36,0.4)'" onmouseout="this.style.background='#fbbf24'; this.style.borderColor='#f59e0b'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">🏛 Govt</button>
+                    <button class="nav-item" onclick="loadMenuContent('orders')" style="background: #fbbf24; color: #1e3a8a; border: 2px solid #f59e0b; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background='#f59e0b'; this.style.borderColor='#d97706'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(251,191,36,0.4)'" onmouseout="this.style.background='#fbbf24'; this.style.borderColor='#f59e0b'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">📦 Orders</button>
+                    <button class="nav-item" onclick="loadMenuContent('settings')" style="background: #fbbf24; color: #1e3a8a; border: 2px solid #f59e0b; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background='#f59e0b'; this.style.borderColor='#d97706'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(251,191,36,0.4)'" onmouseout="this.style.background='#fbbf24'; this.style.borderColor='#f59e0b'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">⚙️ Settings</button>
+                    <button class="nav-item" onclick="loadMenuContent('profile')" style="background: #fbbf24; color: #1e3a8a; border: 2px solid #f59e0b; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background='#f59e0b'; this.style.borderColor='#d97706'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(251,191,36,0.4)'" onmouseout="this.style.background='#fbbf24'; this.style.borderColor='#f59e0b'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">👤 Profile</button>
+                    <button class="nav-item logout-btn" onclick="logout()" style="background: #ef4444; color: white; border: 2px solid #dc2626; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all 0.3s ease; white-space: nowrap;" onmouseover="this.style.background='#dc2626'; this.style.borderColor='#b91c1c'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(239,68,68,0.4)'" onmouseout="this.style.background='#ef4444'; this.style.borderColor='#dc2626'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">Logout</button>
+                </div>
+            </div>
+        </nav>
+        
+        <style>
+        @media (max-width: 1200px) {
+            .nav-item {
+                font-size: 0.75rem !important;
+                padding: 5px 8px !important;
+            }
+            
+            .nav-menu {
+                gap: 6px !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column !important;
+                padding: 10px !important;
+            }
+            
+            .nav-menu {
+                justify-content: center !important;
+                margin-top: 10px !important;
+                flex-wrap: wrap !important;
+                gap: 4px !important;
+            }
+            
+            .nav-item {
+                font-size: 0.7rem !important;
+                padding: 4px 8px !important;
+            }
+        }
+        </style>
+
+        <main class="main">
+            <header>
+                <h2>Welcome, Farmer 👨‍🌾</h2>
+            </header>
+
+            <!-- Dashboard Content (Info Cards + Graph + AI/Camera/Activities) -->
+            <div id="dashboardContent">
+                <!-- Info Cards -->
+                <div class="grid">
+                    <div class="card" style="transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.15)'; this.style.background='linear-gradient(135deg, #f0f9ff, #e0f2fe)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'; this.style.background='white'">
+                        <h4>🌡 Weather</h4>
+                        <p id="weatherText">Today: 30°C | 65% Humidity | 12mm Rain</p>
+                    </div>
+                    <div class="card" style="transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.15)'; this.style.background='linear-gradient(135deg, #f0fdf4, #dcfce7)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'; this.style.background='white'">
+                        <h4>🌱 Growth</h4>
+                        <p>Stage: Vegetative</p>
+                    </div>
+                    <div class="card" style="transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.15)'; this.style.background='linear-gradient(135deg, #f0f9ff, #e0f2fe)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'; this.style.background='white'">
+                        <h4>💧 Soil</h4>
+                        <p>Moisture: 42%</p>
+                    </div>
+                    <div class="card" style="transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.15)'; this.style.background='linear-gradient(135deg, #fef3c7, #fed7aa)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'; this.style.background='white'">
+                        <h4>📊 AI Status</h4>
+                        <p id="aiStatus">Optimal conditions detected for crop growth 🌱📊</p>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="card">
+                    <h4>📊 Farming Analytics Dashboard</h4>
+                    <div class="charts-container">
+                        <div class="chart-row">
+                            <div class="chart-item">
+                                <h5>�️ Temperature Analysis</h5>
+                                <canvas id="temperatureChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h5>🌾 Crop Distribution</h5>
+                                <canvas id="cropChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-row">
+                            <div class="chart-item">
+                                <h5>🌧️ Rainfall Pattern</h5>
+                                <canvas id="rainfallChart"></canvas>
+                            </div>
+                            <div class="chart-item">
+                                <h5>📈 Yield Performance</h5>
+                                <canvas id="yieldChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Assistant + Camera + Activities -->
+                <div class="grid">
+                    <div class="card">
+                        <h4>🤖 AI Assistant</h4>
+                        <div class="chat-box" id="chatBox"></div>
+                        <div class="chat-input">
+                            <input type="text" id="aiInput" placeholder="Ask AI..."
+                                onkeypress="if(event.key==='Enter') sendAIMessage()" />
+                            <button onclick="sendAIMessage()">Send</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h4>📷 Crop Camera</h4>
+                        <video id="video" autoplay></video>
+                        <canvas id="canvas" style="display:none;"></canvas>
+                        <button onclick="capturePhoto()">Capture & Analyze</button>
+                    </div>
+
+                    <div class="card">
+                        <h4>📌 Activities</h4>
+                        <ul id="activities"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Content Area (for menu items) -->
+            <div id="contentArea" style="display: none;">
+                <!-- Content will be loaded here when menu items are clicked -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer Component (Embedded Directly) -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>🌾 Smart Agriculture</h4>
+                <p>Empowering farmers with AI technology</p>
+                <div class="social-links">
+                    <h5>Follow Us</h5>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/abhinav_karthik_444" target="_blank" class="social-icon instagram" title="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.28-.072-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.948-.069zm0 2.163c-3.259 0-3.667.014-4.947.072-2.358.134-3.511.975-3.837 2.382-.058 1.28-.072 1.689-.072 4.948 0 3.259.014 3.668.072 4.948.326 1.406 1.479 2.247 3.837 2.382 1.28.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 2.358-.134 3.511-.975 3.837-2.382.058-1.28.072-1.689.072-4.948 0-3.259-.014-3.667-.072-4.947-.326-1.406-1.479-2.247-3.837-2.382-1.28-.058-1.689-.072-4.948-.072zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
+                            </svg>
+                            Instagram
+                        </a>
+                        <a href="https://wa.me/919346176667" target="_blank" class="social-icon whatsapp" title="WhatsApp">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.149-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.63.143-.174.297-.462.446-.692.149-.23.149-.462.058-.692-.075-.23-.692-1.66-1.029-2.277-.337-.615-.674-.532-.94-.532-.268 0-.573-.018-.877-.018-.304 0-.795.115-1.211.588-.416.474-1.587 1.55-1.587 3.779 0 2.229 1.621 4.381 1.846 4.699.224.317 3.197 4.883 7.754 6.846 1.083.468 1.928.747 2.585.958.432.137.821.104 1.129.064.345-.048 1.758-.719 2.006-1.413.247-.694.247-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0010.051 0C4.6 0 0 4.598 0 10.051c0 1.77.432 3.488 1.26 5.038L0 24l6.375-1.684a11.815 11.815 0 005.676 1.445h.004c6.452 0 11.051-4.598 11.051-10.051 0-2.652-.99-5.147-2.787-7.045z"/>
+                            </svg>
+                            WhatsApp
+                        </a>
+                        <a href="https://www.facebook.com/AbhinavKarthikVanja" target="_blank" class="social-icon facebook" title="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            Facebook
+                        </a>
+                        <a href="https://www.twitter.com/AbhinavKar32571" target="_blank" class="social-icon x-twitter" title="X (Twitter)">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                            X (Twitter)
+                        </a>
+                        <a href="https://www.youtube.com/@downtown_17" target="_blank" class="social-icon youtube" title="YouTube">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                            YouTube
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>📧 abhinavkarthik444@gmail.com</p>
+                <p>📞 9346176667</p>
+                <p>� 9392865434</p>
+                <p>�� Hyderabad, Telangana, India</p>
+                <div class="contact-social">
+                    <p><strong>Connect with us:</strong></p>
+                    <p>Instagram: @abhinav_karthik_444</p>
+                    <p>WhatsApp: +91-9346176667</p>
+                    <p>YouTube: @downtown_17</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <div class="credits-section">
+                    <p>Made with ❤️ for Indian Farmers 🇮🇳</p>
+                    <p class="credits-text">
+                        <strong>Credits:</strong> abhinav karthik and vijay govindu
+                    </p>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/abhinav_karthik_444" target="_blank" title="Instagram">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.28-.072-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.948-.069zm0 2.163c-3.259 0-3.667.014-4.947.072-2.358.134-3.511.975-3.837 2.382-.058 1.28-.072 1.689-.072 4.948 0 3.259.014 3.668.072 4.948.326 1.406 1.479 2.247 3.837 2.382 1.28.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 2.358-.134 3.511-.975 3.837-2.382.058-1.28.072-1.689.072-4.948 0-3.259-.014-3.667-.072-4.947-.326-1.406-1.479-2.247-3.837-2.382-1.28-.058-1.689-.072-4.948-.072zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
+                    </svg>
+                    </a>
+                    <a href="https://wa.me/919346176667" target="_blank" title="WhatsApp">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/AbhinavKarthikVanja" target="_blank" title="Facebook">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.twitter.com/AbhinavKar32571" target="_blank" title="X (Twitter)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.youtube.com/@downtown_17" target="_blank" title="YouTube">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+    .footer {
+        background: linear-gradient(135deg, #1f2937, #34495e);
+        color: white;
+        padding: 40px 0 20px;
+        margin-top: auto;
+        border-top: 3px solid #16a34a;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .footer-section {
+        flex: 1;
+        min-width: 300px;
+    }
+
+    .footer-section h4 {
+        color: #22c55e;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+        border-bottom: 2px solid #16a34a;
+        padding-bottom: 8px;
+    }
+
+    .footer-section ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-section li {
+        margin-bottom: 8px;
+    }
+
+    .footer-section a {
+        color: #94a3b8;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .footer-section a:hover {
+        color: #22c55e;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #34495e;
+        color: #64748b;
+        font-size: 0.9rem;
+    }
+
+    .footer-bottom p {
+        margin: 5px 0;
+    }
+
+    /* Social Media Styles */
+    .social-links {
+        margin-top: 15px;
+    }
+
+    .social-links h5 {
+        color: #22c55e;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+    }
+
+    .social-icons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .social-icon {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 8px 12px;
+        background: rgba(255,255,255,0.1);
+        color: white;
+        text-decoration: none;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .social-icon:hover {
+        background: rgba(255,255,255,0.2);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .social-icon.instagram:hover {
+        background: linear-gradient(45deg, #E4405F, #C13584, #833AB4);
+        border-color: #E4405F;
+    }
+
+    .social-icon.whatsapp:hover {
+        background: #25D366;
+        border-color: #25D366;
+    }
+
+    .social-icon.facebook:hover {
+        background: #1877F2;
+        border-color: #1877F2;
+    }
+
+    .social-icon.twitter:hover,
+    .social-icon.x-twitter:hover {
+        background: #1DA1F2;
+        border-color: #1DA1F2;
+    }
+
+    .social-icon.youtube:hover {
+        background: #FF0000;
+        border-color: #FF0000;
+    }
+
+    .contact-social {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .contact-social p {
+        margin: 5px 0;
+        font-size: 0.9rem;
+    }
+
+    .footer-bottom-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .credits-section {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .credits-text {
+        font-size: 0.85rem;
+        color: #94a3b8;
+        line-height: 1.4;
+        margin-top: 8px;
+        padding: 10px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .footer-social {
+        display: flex;
+        gap: 15px;
+    }
+
+    .footer-social a {
+        color: #94a3b8;
+        font-size: 1.2rem;
+        text-decoration: none;
+        transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .footer-social a:hover {
+        color: #22c55e;
+        transform: scale(1.2);
+    }
+
+    /* Charts Container Styles */
+    .charts-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .chart-row {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .chart-item {
+        flex: 1;
+        min-width: 280px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .chart-item h5 {
+        margin: 0 0 10px 0;
+        color: #22c55e;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .chart-item canvas {
+        max-height: 200px;
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    @media (max-width: 768px) {
+        .footer-container {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .chart-row {
+            flex-direction: column;
+        }
+        
+        .chart-item {
+            min-width: 100%;
+        }
+        
+        .footer {
+            padding: 30px 0 15px;
+        }
+        .social-icons {
+            justify-content: center;
+        }
+        
+        .footer-bottom-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .footer-social {
+            justify-content: center;
+        }
+    }
+    </style>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

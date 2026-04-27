@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Farming Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="login-page">
+        <div class="login-bg"></div>
+        <div class="login-box">
+            <h2>🤖 AI Farming Login</h2>
+            <div id="loginForm">
+                <input type="text" id="username" placeholder="Username"/>
+                <input type="password" id="password" placeholder="Password"/>
+                <button onclick="login()">Login</button>
+                <p style="text-align: center; margin-top: 10px;">
+                    <a href="#" onclick="showRegisterForm()" style="color: #16a34a;">Don't have an account? Register</a>
+                </p>
+            </div>
+            
+            <div id="registerForm" style="display: none;">
+                <input type="text" id="regUsername" placeholder="Username"/>
+                <input type="email" id="regEmail" placeholder="Email"/>
+                <input type="password" id="regPassword" placeholder="Password"/>
+                <input type="text" id="regFullName" placeholder="Full Name (Optional)"/>
+                <input type="text" id="regFarmLocation" placeholder="Farm Location (Optional)"/>
+                <button onclick="register()">Register</button>
+                <p style="text-align: center; margin-top: 10px;">
+                    <a href="#" onclick="showLoginForm()" style="color: #16a34a;">Already have an account? Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard" id="dashboard">
+        <!-- Include Navigation Component -->
+        <div id="navbar-container"></div>
+        
+        <div class="dashboard-content">
+            <aside class="sidebar">
+                <div class="sidebar">
+                    <h2 onclick="refreshDashboard()" style="cursor: pointer; transition: background-color 0.2s ease;">AI-Farming 🌱</h2>
+                    <ul>
+                        <li><a href="#" onclick="loadMenuContent('crop'); return false;">🌾 Your Crop</a></li>
+                        <li><a href="#" onclick="loadMenuContent('community'); return false;">👥 Community</a></li>
+                        <li><a href="#" onclick="loadMenuContent('market'); return false;">🛒 Market</a></li>
+                        <li><a href="#" onclick="loadMenuContent('land'); return false;">🌍 Land Details</a></li>
+                        <li><a href="#" onclick="loadMenuContent('fertilizer'); return false;">🧪 Fertilizer Shop</a></li>
+                        <li><a href="#" onclick="loadMenuContent('govt'); return false;">🏛 Government Schemes</a></li>
+                        <li><a href="#" onclick="loadMenuContent('orders'); return false;">📦 Orders</a></li>
+                        <li><a href="#" onclick="loadMenuContent('settings'); return false;">⚙️ Settings</a></li>
+                        <li><a href="#" onclick="loadMenuContent('profile'); return false;">👤 My Profile</a></li>
+                        <li><a href="#" onclick="logout(); return false;">Logout</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <main class="main">
+                <header>
+                    <h2>Welcome, Farmer 👨‍🌾</h2>
+                    <button class="home-button" onclick="loadMenuContent('home'); return false;" title="Go to Home">
+                        🏠
+                    </button>
+                </header>
+
+                <!-- Info Cards -->
+                <div class="grid">
+                    <div class="card">
+                        <h4>🌡 Weather</h4>
+                        <p id="weatherText">Today: 30°C | 65% Humidity | 12mm Rain</p>
+                    </div>
+                    <div class="card">
+                        <h4>🌱 Growth</h4>
+                        <p>Stage: Vegetative</p>
+                    </div>
+                    <div class="card">
+                        <h4>💧 Soil</h4>
+                        <p>Moisture: 42%</p>
+                    </div>
+                    <div class="card">
+                        <h4>📊 AI Status</h4>
+                        <p id="aiStatus">Analyzing weather impact...</p>
+                    </div>
+                </div>
+
+                <!-- AI Assistant + Camera + Activities (Default Dashboard) -->
+                <div class="grid" id="dashboardContent">
+                    <div class="card">
+                        <h4>🤖 AI Assistant</h4>
+                        <div class="chat-box" id="chatBox"></div>
+                        <div class="chat-input">
+                            <input type="text" id="aiInput" placeholder="Ask AI..."
+                                onkeypress="if(event.key==='Enter') sendAIMessage()" />
+                            <button onclick="sendAIMessage()">Send</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h4>📷 Crop Camera</h4>
+                        <video id="video" autoplay></video>
+                        <canvas id="canvas" style="display:none;"></canvas>
+                        <button onclick="capturePhoto()">Capture & Analyze</button>
+                    </div>
+
+                    <div class="card">
+                        <h4>📌 Activities</h4>
+                        <ul id="activities"></ul>
+                    </div>
+                </div>
+
+                <!-- Content Area for Dynamic Content -->
+                <div id="contentArea"></div>
+            </main>
+        </div>
+        
+        <!-- Include Footer Component -->
+        <div id="footer-container"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Load modular components
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load Navigation Component
+            fetch('components/navbar.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('navbar-container').innerHTML = html;
+                });
+            
+            // Load Footer Component
+            fetch('components/footer.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('footer-container').innerHTML = html;
+                });
+        });
+    </script>
+</body>
+</html>

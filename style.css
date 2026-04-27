@@ -1,0 +1,480 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+/* Page load transitions */
+.login-page {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.dashboard {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Login box entrance animation */
+.login-box {
+    animation: slideInScale 0.5s ease-out 0.3s both;
+}
+
+@keyframes slideInScale {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Dashboard sidebar entrance */
+.sidebar {
+    animation: slideInLeft 0.5s ease-out 0.2s both;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Dashboard main content entrance */
+.main {
+    animation: slideInRight 0.5s ease-out 0.4s both;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* --- Login Page (AI Background) --- */
+.login-page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.login-bg {
+    position: absolute;
+    inset: 0;
+    background: url('https://img.freepik.com/premium-photo/smart-farming-concept-farmer-with-technology-digital-tablet-background-wheat-field-professional-farmers-use-internet-things-iot-computers-system-manage-farms-agriculture-modern-idea_2379-2858.jpg') no-repeat center/cover;
+    filter: brightness(0.6);
+    z-index: 0;
+}
+
+.login-box {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.1);
+    color: #ffffff;
+    backdrop-filter: blur(5px);
+}
+
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* --- Dashboard Layout --- */
+.dashboard {
+    display: none;
+    /* hidden at first */
+    height: 100vh;
+    flex-direction: column;
+}
+
+/* --- Simple Smooth Transitions for Content Switching --- */
+#dashboardContent {
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#dashboardContent.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+#dashboardContent.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#contentArea {
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+#contentArea.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+#contentArea.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Simple content entrance animation */
+.content-entrance {
+    animation: simpleContentSlideIn 0.3s ease-out;
+}
+
+@keyframes simpleContentSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Navigation item active state */
+.nav-item.active {
+    background: rgba(255,255,255,0.3) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.dashboard.active {
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    background: #1f2937;
+    color: white;
+    padding: 15px;
+    flex-shrink: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    margin-bottom: 20px;
+    color: #16a34a;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    padding: 6px;
+    border-radius: 6px;
+    display: inline-block;
+    font-size: 0.9rem;
+}
+
+.sidebar h2:hover {
+    background: rgba(22, 163, 74, 0.1);
+    color: #22c55e;
+}
+
+.sidebar a {
+    color: #d1d5db;
+    text-decoration: none;
+    margin: 5px 0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: block;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    transform: translateX(0);
+    background-color: transparent;
+}
+
+.sidebar a:hover {
+    background-color: #374151 !important;
+    transform: translateX(8px) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.sidebar a:active {
+    transform: translateX(4px) scale(0.96) !important;
+    transition: all 0.1s ease;
+    background-color: #4b5563 !important;
+}
+
+.sidebar li {
+    list-style: none;
+    margin: 5px 0;
+}
+
+/* Add dividers between specific sections */
+.sidebar li:nth-child(1) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.sidebar li:nth-child(2) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.sidebar li:nth-child(3) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.sidebar li:nth-child(4) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.sidebar li:nth-child(5) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.sidebar li:nth-child(6) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.sidebar li:nth-child(7) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.sidebar li:nth-child(8) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.main {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #f0f4f8;
+}
+
+/* Content area transitions */
+#contentArea {
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    opacity: 1;
+    transform: translateY(0);
+    background: rgba(255, 255, 255, 0);
+}
+
+#contentArea.fade-out {
+    opacity: 0.2 !important;
+    transform: translateY(30px) scale(0.95) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+#contentArea.fade-in {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+    background: rgba(255, 255, 255, 0) !important;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.home-button {
+    background: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.home-button:hover {
+    background: #22c55e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.home-button:active {
+    transform: translateY(0) scale(0.95);
+    transition: all 0.1s ease;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+#weatherCropChart {
+    max-height: 300px;
+    width: 100%;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Chat */
+.chat-box {
+    height: 200px;
+    overflow-y: auto;
+    background: #f9fafb;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.chat-box div {
+    margin: 5px 0;
+}
+
+.chat-input {
+    display: flex;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+}
+
+.chat-input button {
+    margin-left: 8px;
+    padding: 10px 16px;
+    background: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.chat-input button:hover {
+    background: #15803d;
+}
+
+/* Camera */
+video,
+canvas {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 10px;
+}
+
+/* Activities */
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+li {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+li button {
+    background: #e5e7eb;
+    border: none;
+    padding: 4px 8px;
+    margin-left: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+li button:hover {
+    background: #d1d5db;
+}
+
+/* Notification Animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

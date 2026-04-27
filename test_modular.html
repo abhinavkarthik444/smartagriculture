@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modular Components Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Modular Components Integration Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Navigation Component Test</h2>
+        <div id="test-navbar"></div>
+        <div id="navbar-status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Footer Component Test</h2>
+        <div id="test-footer"></div>
+        <div id="footer-status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Integration Test</h2>
+        <button onclick="testIntegration()">Test Full Integration</button>
+        <div id="integration-results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Functionality Test</h2>
+        <button onclick="testFunctionality()">Test Navigation Functions</button>
+        <div id="functionality-results"></div>
+    </div>
+
+    <style>
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        h2 {
+            color: #16a34a;
+            margin-bottom: 15px;
+        }
+        button {
+            background: #16a34a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #22c55e;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+
+    <script src="script.js"></script>
+    <script>
+        let testResults = {
+            navbar: false,
+            footer: false,
+            integration: false,
+            functionality: false
+        };
+        
+        // Test 1: Load Navigation Component
+        async function testNavbar() {
+            try {
+                const response = await fetch('components/navbar.html');
+                const html = await response.text();
+                document.getElementById('test-navbar').innerHTML = html;
+                
+                document.getElementById('navbar-status').innerHTML = 
+                    '<div class="status success">Navigation Component: Loaded Successfully</div>';
+                testResults.navbar = true;
+                return true;
+            } catch (error) {
+                document.getElementById('navbar-status').innerHTML = 
+                    '<div class="status error">Navigation Component: Failed - ' + error.message + '</div>';
+                return false;
+            }
+        }
+        
+        // Test 2: Load Footer Component
+        async function testFooter() {
+            try {
+                const response = await fetch('components/footer.html');
+                const html = await response.text();
+                document.getElementById('test-footer').innerHTML = html;
+                
+                document.getElementById('footer-status').innerHTML = 
+                    '<div class="status success">Footer Component: Loaded Successfully</div>';
+                testResults.footer = true;
+                return true;
+            } catch (error) {
+                document.getElementById('footer-status').innerHTML = 
+                    '<div class="status error">Footer Component: Failed - ' + error.message + '</div>';
+                return false;
+            }
+        }
+        
+        // Test 3: Integration Test
+        async function testIntegration() {
+            const resultsDiv = document.getElementById('integration-results');
+            resultsDiv.innerHTML = '<div>Testing integration...</div>';
+            
+            try {
+                // Test loading both components
+                const navbarLoaded = await testNavbar();
+                const footerLoaded = await testFooter();
+                
+                if (navbarLoaded && footerLoaded) {
+                    resultsDiv.innerHTML = `
+                        <div class="status success">
+                            <strong>Integration Test: PASSED</strong><br>
+                            Navigation Component: ✅ Loaded<br>
+                            Footer Component: ✅ Loaded<br>
+                            Both components working independently
+                        </div>
+                    `;
+                    testResults.integration = true;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="status error">
+                            <strong>Integration Test: FAILED</strong><br>
+                            Navigation: ${navbarLoaded ? '✅' : '❌'}<br>
+                            Footer: ${footerLoaded ? '✅' : '❌'}<br>
+                            Check component files and paths
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="status error">
+                        <strong>Integration Test: ERROR</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        // Test 4: Functionality Test
+        function testFunctionality() {
+            const resultsDiv = document.getElementById('functionality-results');
+            
+            // Check if global functions exist
+            const functions = [
+                'loadMenuContent',
+                'refreshDashboard',
+                'login',
+                'logout',
+                'register',
+                'showLoginForm',
+                'showRegisterForm'
+            ];
+            
+            let functionResults = [];
+            for (let func of functions) {
+                if (typeof window[func] === 'function') {
+                    functionResults.push(`✅ ${func}()`);
+                } else {
+                    functionResults.push(`❌ ${func}()`);
+                }
+            }
+            
+            resultsDiv.innerHTML = `
+                <div class="status ${functionResults.includes('❌') ? 'error' : 'success'}">
+                    <strong>Functionality Test</strong><br>
+                    ${functionResults.join('<br>')}
+                </div>
+            `;
+        }
+        
+        // Auto-run tests on page load
+        window.onload = function() {
+            testNavbar();
+            testFooter();
+            testIntegration();
+            testFunctionality();
+        };
+    </script>
+</body>
+</html>

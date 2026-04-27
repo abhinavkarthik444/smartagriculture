@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community Debug Test</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="login-page">
+        <div class="login-bg"></div>
+        <div class="login-box">
+            <h2>AI Farming Login</h2>
+            <div id="loginForm">
+                <input type="text" id="username" placeholder="Username"/>
+                <input type="password" id="password" placeholder="Password"/>
+                <button onclick="login()">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard" id="dashboard">
+        <aside class="sidebar">
+            <div class="sidebar">
+                <h2>AI-Farming</h2>
+                <ul>
+                    <li><a href="#" onclick="testCommunity(); return false;">Community Test</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main">
+            <header>
+                <h2>Welcome, Farmer</h2>
+            </header>
+
+            <!-- Debug Console -->
+            <div class="card">
+                <h3>Debug Console</h3>
+                <div id="debugConsole" style="background: #f0f0f0; padding: 10px; height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px; border-radius: 4px; margin-bottom: 20px;">
+                    <p>Debug messages will appear here...</p>
+                </div>
+            </div>
+
+            <!-- Dynamic Content Area -->
+            <div id="contentArea">
+                <div class="card">
+                    <h3>Welcome to Smart Agriculture Portal</h3>
+                    <p>Click "Community Test" to debug the community section.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Debug function
+        function debug(message) {
+            const debugConsole = document.getElementById('debugConsole');
+            if (debugConsole) {
+                debugConsole.innerHTML += '<div>' + new Date().toLocaleTimeString() + ': ' + message + '</div>';
+                debugConsole.scrollTop = debugConsole.scrollHeight;
+            }
+            console.log(message);
+        }
+
+        // Mock login for testing
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username && password) {
+                debug('Login successful for user: ' + username);
+                localStorage.setItem('currentUser', JSON.stringify({username: username}));
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'flex';
+                debug('Dashboard shown');
+            } else {
+                debug('Login failed: missing credentials');
+                alert('Please enter username and password');
+            }
+        }
+
+        // Test community function with debugging
+        async function testCommunity() {
+            debug('=== Testing Community Section ===');
+            debug('Starting loadCommunity function...');
+            
+            const contentArea = document.getElementById('contentArea');
+            if (!contentArea) {
+                debug('ERROR: contentArea not found!');
+                return;
+            }
+            
+            debug('contentArea found, setting innerHTML...');
+            
+            contentArea.innerHTML = `
+                <div class="card">
+                    <h3>👥 Community</h3>
+                    <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                        <button onclick="showCommunityOption('forum')" id="forumBtn" style="background: #2563eb; color: white; padding: 8px 16px; border: none; border-radius: 6px;">Forum</button>
+                        <button onclick="showCommunityOption('farmers')" id="farmersBtn" style="background: #6b7280; color: white; padding: 8px 16px; border: none; border-radius: 6px;">Farmers</button>
+                        <button onclick="showCommunityOption('chat')" id="chatBtn" style="background: #6b7280; color: white; padding: 8px 16px; border: none; border-radius: 6px;">Chat</button>
+                    </div>
+                    <div id="communityContent">
+                        <p>Testing community content...</p>
+                    </div>
+                </div>
+            `;
+            
+            debug('Community HTML set successfully');
+            
+            // Test if buttons exist
+            const forumBtn = document.getElementById('forumBtn');
+            const farmersBtn = document.getElementById('farmersBtn');
+            const chatBtn = document.getElementById('chatBtn');
+            const communityContent = document.getElementById('communityContent');
+            
+            debug('Button checks:');
+            debug('forumBtn: ' + (forumBtn ? 'EXISTS' : 'NOT FOUND'));
+            debug('farmersBtn: ' + (farmersBtn ? 'EXISTS' : 'NOT FOUND'));
+            debug('chatBtn: ' + (chatBtn ? 'EXISTS' : 'NOT FOUND'));
+            debug('communityContent: ' + (communityContent ? 'EXISTS' : 'NOT FOUND'));
+            
+            if (forumBtn && farmersBtn && chatBtn && communityContent) {
+                debug('All elements found! Loading default forum...');
+                await showCommunityOption('forum');
+            } else {
+                debug('ERROR: Some elements are missing!');
+            }
+        }
+
+        async function showCommunityOption(option) {
+            debug('=== showCommunityOption called with: ' + option + ' ===');
+            
+            // Update button styles
+            const buttons = {
+                'forum': document.getElementById('forumBtn'),
+                'farmers': document.getElementById('farmersBtn'),
+                'chat': document.getElementById('chatBtn')
+            };
+            
+            debug('Updating button styles...');
+            Object.keys(buttons).forEach(key => {
+                if (buttons[key]) {
+                    buttons[key].style.background = key === option ? '#2563eb' : '#6b7280';
+                    debug('Updated button: ' + key + ' to ' + (key === option ? 'active' : 'inactive'));
+                } else {
+                    debug('Button not found: ' + key);
+                }
+            });
+            
+            const contentDiv = document.getElementById('communityContent');
+            if (!contentDiv) {
+                debug('ERROR: communityContent div not found!');
+                return;
+            }
+            
+            debug('Loading content for: ' + option);
+            
+            switch(option) {
+                case 'forum':
+                    debug('Loading forum content...');
+                    contentDiv.innerHTML = `
+                        <div style="padding: 20px;">
+                            <h4>📝 Forum Section</h4>
+                            <p>This is the forum section. Posts and discussions appear here.</p>
+                            <button style="background: #16a34a; color: white; padding: 8px 16px; border: none; border-radius: 6px; margin: 10px 0;">+ Create Post</button>
+                        </div>
+                    `;
+                    break;
+                case 'farmers':
+                    debug('Loading farmers content...');
+                    contentDiv.innerHTML = `
+                        <div style="padding: 20px;">
+                            <h4>👤 Farmers Section</h4>
+                            <p>This is the farmers section. Community members appear here.</p>
+                        </div>
+                    `;
+                    break;
+                case 'chat':
+                    debug('Loading chat content...');
+                    contentDiv.innerHTML = `
+                        <div style="padding: 20px;">
+                            <h4>💬 Chat Section</h4>
+                            <div style="height: 200px; border: 1px solid #e5e7eb; border-radius: 8px; background: #f9fafb; padding: 10px; margin: 10px 0;">
+                                <p style="color: #6b7280; text-align: center;">Welcome to Community Chat!</p>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" placeholder="Type your message..." style="flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                                <button style="background: #2563eb; color: white; padding: 8px 16px; border: none; border-radius: 6px;">Send</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            debug('Content loaded successfully for: ' + option);
+        }
+
+        // Initialize
+        window.onload = function() {
+            debug('Page loaded successfully');
+            debug('Click "Community Test" in the sidebar to test the community section');
+        };
+    </script>
+</body>
+</html>

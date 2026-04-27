@@ -1,0 +1,104 @@
+<!-- Navigation Bar Component -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-brand">
+            <h2 onclick="refreshDashboard()" style="cursor: pointer;">🤖 AI-Farming 🌱</h2>
+        </div>
+        <div class="nav-menu">
+            <button class="nav-item" onclick="loadMenuContent('crop')">🌾 Your Crop</button>
+            <button class="nav-item" onclick="loadMenuContent('community')">👥 Community</button>
+            <button class="nav-item" onclick="loadMenuContent('market')">🛒 Market</button>
+            <button class="nav-item" onclick="loadMenuContent('land')">🌍 Land Details</button>
+            <button class="nav-item" onclick="loadMenuContent('fertilizer')">🧪 Fertilizer Shop</button>
+            <button class="nav-item" onclick="loadMenuContent('govt')">🏛 Government Schemes</button>
+            <button class="nav-item" onclick="loadMenuContent('orders')">📦 Orders</button>
+            <button class="nav-item" onclick="loadMenuContent('settings')">⚙️ Settings</button>
+            <button class="nav-item" onclick="loadMenuContent('profile')">👤 My Profile</button>
+            <button class="nav-item logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+</nav>
+
+<style>
+.navbar {
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    padding: 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-brand h2 {
+    color: white;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    transition: transform 0.3s ease;
+}
+
+.nav-brand h2:hover {
+    transform: scale(1.05);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.nav-item {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.nav-item:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.logout-btn {
+    background: rgba(239,68,68,0.2);
+    border-color: rgba(239,68,68,0.3);
+}
+
+.logout-btn:hover {
+    background: rgba(239,68,68,0.3);
+    border-color: rgba(239,68,68,0.4);
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+    
+    .nav-menu {
+        justify-content: center;
+        margin-top: 10px;
+    }
+    
+    .nav-item {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}
+</style>

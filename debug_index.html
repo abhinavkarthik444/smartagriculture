@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Farming Portal - Debug</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="login-page">
+        <div class="login-bg"></div>
+        <div class="login-box">
+            <h2>AI Farming Login</h2>
+            <div id="loginForm">
+                <input type="text" id="username" placeholder="Username"/>
+                <input type="password" id="password" placeholder="Password"/>
+                <button onclick="login()">Login</button>
+                <p style="text-align: center; margin-top: 10px;">
+                    <a href="#" onclick="showRegisterForm()" style="color: #16a34a;">Don't have an account? Register</a>
+                </p>
+            </div>
+            <div id="registerForm" style="display: none;">
+                <input type="text" id="regUsername" placeholder="Username"/>
+                <input type="email" id="regEmail" placeholder="Email"/>
+                <input type="password" id="regPassword" placeholder="Password"/>
+                <input type="text" id="regFullName" placeholder="Full Name (Optional)"/>
+                <input type="text" id="regFarmLocation" placeholder="Farm Location (Optional)"/>
+                <button onclick="register()">Register</button>
+                <p style="text-align: center; margin-top: 10px;">
+                    <a href="#" onclick="showLoginForm()" style="color: #16a34a;">Already have an account? Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="dashboard" id="dashboard">
+        <aside class="sidebar">
+            <div class="sidebar">
+                <h2>AI-Farming</h2>
+                <ul>
+                    <li><a href="#" onclick="loadMenuContent('crop'); return false;">Your Crop</a></li>
+                    <li><a href="#" onclick="loadMenuContent('community'); return false;">Community</a></li>
+                    <li><a href="#" onclick="loadMenuContent('market'); return false;">Market</a></li>
+                    <li><a href="#" onclick="loadMenuContent('land'); return false;">Land Details</a></li>
+                    <li><a href="#" onclick="loadMenuContent('fertilizer'); return false;">Fertilizer Shop</a></li>
+                    <li><a href="#" onclick="loadMenuContent('govt'); return false;">Government Schemes</a></li>
+                    <li><a href="#" onclick="loadMenuContent('orders'); return false;">Orders</a></li>
+                    <li><a href="#" onclick="loadMenuContent('settings'); return false;">Settings</a></li>
+                    <li><a href="#" onclick="logout(); return false;">Logout</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main">
+            <header>
+                <h2>Welcome, Farmer</h2>
+            </header>
+
+            <!-- Debug Console -->
+            <div class="card">
+                <h3>Debug Console</h3>
+                <div id="debugConsole" style="background: #f0f0f0; padding: 10px; height: 150px; overflow-y: auto; font-family: monospace; font-size: 12px; border-radius: 4px;">
+                    <p>Debug messages will appear here...</p>
+                </div>
+            </div>
+
+            <!-- Dynamic Content Area -->
+            <div id="contentArea">
+                <div class="card">
+                    <h3>Welcome to Smart Agriculture Portal</h3>
+                    <p>Please login to access all features.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Debug function
+        function debug(message) {
+            const debugConsole = document.getElementById('debugConsole');
+            if (debugConsole) {
+                debugConsole.innerHTML += '<div>' + new Date().toLocaleTimeString() + ': ' + message + '</div>';
+                debugConsole.scrollTop = debugConsole.scrollHeight;
+            }
+            console.log(message);
+        }
+
+        // Override loadMenuContent to add debugging
+        async function loadMenuContent(menuId) {
+            debug('Loading menu content for: ' + menuId);
+            const contentArea = document.getElementById('contentArea');
+            
+            if (!contentArea) {
+                debug('ERROR: contentArea not found!');
+                return;
+            }
+            
+            switch(menuId) {
+                case 'crop':
+                    debug('Loading crop management...');
+                    contentArea.innerHTML = '<div class="card"><h3>Crop Management</h3><p>Crop management features coming soon...</p></div>';
+                    break;
+                case 'community':
+                    debug('Loading community section...');
+                    contentArea.innerHTML = `
+                        <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                            <button onclick="showCommunitySection('forum')" id="forumBtn" style="background: #2563eb; color: white; padding: 8px 16px; border: none; border-radius: 6px;">Forum</button>
+                            <button onclick="showCommunitySection('groups')" id="groupsBtn" style="background: #6b7280; color: white; padding: 8px 16px; border: none; border-radius: 6px;">Groups</button>
+                            <button onclick="showCommunitySection('members')" id="membersBtn" style="background: #6b7280; color: white; padding: 8px 16px; border: none; border-radius: 6px;">Members</button>
+                            <button onclick="showCommunitySection('profile')" id="profileBtn" style="background: #6b7280; color: white; padding: 8px 16px; border: none; border-radius: 6px;">My Profile</button>
+                        </div>
+                        <div id="communityContent">
+                            <div class="card">
+                                <h3>Forum</h3>
+                                <p>Loading forum content...</p>
+                            </div>
+                        </div>
+                    `;
+                    await showCommunitySection('forum');
+                    break;
+                case 'market':
+                    debug('Loading marketplace...');
+                    contentArea.innerHTML = '<div class="card"><h3>Marketplace</h3><p>Marketplace features coming soon...</p></div>';
+                    break;
+                case 'land':
+                    debug('Loading land details...');
+                    contentArea.innerHTML = '<div class="card"><h3>Land Details</h3><p>Land details features coming soon...</p></div>';
+                    break;
+                case 'fertilizer':
+                    debug('Loading fertilizer shop...');
+                    contentArea.innerHTML = '<div class="card"><h3>Fertilizer Shop</h3><p>Fertilizer shop features coming soon...</p></div>';
+                    break;
+                case 'govt':
+                    debug('Loading government schemes...');
+                    contentArea.innerHTML = '<div class="card"><h3>Government Schemes</h3><p>Government schemes features coming soon...</p></div>';
+                    break;
+                case 'orders':
+                    debug('Loading orders...');
+                    contentArea.innerHTML = '<div class="card"><h3>Orders</h3><p>Orders features coming soon...</p></div>';
+                    break;
+                case 'settings':
+                    debug('Loading settings...');
+                    contentArea.innerHTML = '<div class="card"><h3>Settings</h3><p>Settings features coming soon...</p></div>';
+                    break;
+                default:
+                    debug('Unknown menu section: ' + menuId);
+                    contentArea.innerHTML = '<div class="card"><h3>Unknown Section</h3><p>This section is not available.</p></div>';
+            }
+        }
+
+        async function showCommunitySection(section) {
+            debug('Showing community section: ' + section);
+            
+            // Update button styles
+            const buttons = {
+                'forum': document.getElementById('forumBtn'),
+                'groups': document.getElementById('groupsBtn'),
+                'members': document.getElementById('membersBtn'),
+                'profile': document.getElementById('profileBtn')
+            };
+            
+            Object.keys(buttons).forEach(key => {
+                if (buttons[key]) {
+                    buttons[key].style.background = key === section ? '#2563eb' : '#6b7280';
+                    debug('Updated button: ' + key + ' to ' + (key === section ? 'active' : 'inactive'));
+                } else {
+                    debug('Button not found: ' + key);
+                }
+            });
+            
+            const contentDiv = document.getElementById('communityContent');
+            if (!contentDiv) {
+                debug('ERROR: communityContent div not found!');
+                return;
+            }
+            
+            switch(section) {
+                case 'forum':
+                    debug('Loading forum content...');
+                    contentDiv.innerHTML = '<div class="card"><h3>Forum</h3><p>Forum posts and discussions will appear here.</p></div>';
+                    break;
+                case 'groups':
+                    debug('Loading groups content...');
+                    contentDiv.innerHTML = '<div class="card"><h3>Groups</h3><p>Farmer groups and chat will appear here.</p></div>';
+                    break;
+                case 'members':
+                    debug('Loading members content...');
+                    contentDiv.innerHTML = '<div class="card"><h3>Members</h3><p>Community members will appear here.</p></div>';
+                    break;
+                case 'profile':
+                    debug('Loading profile content...');
+                    contentDiv.innerHTML = '<div class="card"><h3>My Profile</h3><p>Your community profile will appear here.</p></div>';
+                    break;
+            }
+        }
+
+        // Mock login function for testing
+        function login() {
+            debug('Login button clicked');
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username && password) {
+                debug('Login successful for user: ' + username);
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'flex';
+                debug('Dashboard shown');
+            } else {
+                debug('Login failed: missing credentials');
+                alert('Please enter username and password');
+            }
+        }
+
+        function logout() {
+            debug('Logout button clicked');
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('dashboard').style.display = 'none';
+            debug('Returned to login page');
+        }
+
+        function showRegisterForm() {
+            debug('Show register form');
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+
+        function showLoginForm() {
+            debug('Show login form');
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+
+        function register() {
+            debug('Register button clicked');
+            alert('Registration feature coming soon');
+        }
+
+        // Initialize
+        window.onload = function() {
+            debug('Page loaded successfully');
+            debug('Click "Community" in the sidebar to test the subsections');
+        };
+    </script>
+</body>
+</html>
