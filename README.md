@@ -1,13 +1,15 @@
 # Smart Agriculture Portal
 
-A web-based AI farming portal with MySQL database integration for user authentication and farm management.
+A comprehensive AI-powered farming portal with MySQL database integration for complete agricultural management.
 
 ## Features
 
 - **User Authentication**: Secure login and registration system with MySQL database
 - **AI Farming Dashboard**: Weather monitoring, crop analysis, and AI assistant
 - **Camera Integration**: Real-time crop monitoring and analysis
-- **Responsive Design**: Modern UI with TailwindCSS styling
+- **Comprehensive Modules**: Crop Management, Community, Market, Land, Fertilizers, Government Schemes, Orders, Settings, Profile
+- **Responsive Design**: Modern UI with smooth transitions and animations
+- **Database Integration**: Complete MySQL backend with Flask API
 
 ## Setup Instructions
 
@@ -46,8 +48,8 @@ The backend server will run on `http://localhost:5000`
 
 The database setup includes these sample users:
 
-- **Username**: `admin`, **Password**: `admin123`
-- **Username**: `farmer`, **Password**: `farmer123`
+- **Username**: `vijay`, **Email**: `vnani8219@gmail.com`, **Password**: `pass123`
+- **Username**: `abhinav`, **Email**: `abhinavkarthik444@gmail.com`, **Password**: `pass123`
 
 ## API Endpoints
 
@@ -69,6 +71,9 @@ Smart-agri-main/
 ├── index.html            # Frontend HTML
 ├── script.js             # Frontend JavaScript
 ├── style.css             # Frontend styling
+├── components/           # Modular components
+│   ├── footer.html       # Footer component
+│   └── navbar.html       # Navigation component
 └── README.md             # This file
 ```
 
@@ -84,3 +89,7 @@ Smart-agri-main/
 1. **Database Connection Error**: Ensure MySQL is running and credentials in `.env` are correct
 2. **CORS Issues**: The backend is configured to allow requests from localhost
 3. **Login Issues**: Check if the backend server is running on port 5000
+
+## Credits
+
+Developed by: abhinav karthik and vijay govindu
